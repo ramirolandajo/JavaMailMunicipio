@@ -30,7 +30,7 @@ public class UsuarioService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = bCryptPasswordEncoder.encode(randomPassword);
         newUsuario.setPassword(encodedPassword);
-        newUsuario.setTipoUsuario("vecino");
+        newUsuario.setCambiosEnReclamos(false);
         this.usuarioRepository.save(newUsuario);
         return randomPassword;
     }

@@ -1,10 +1,7 @@
 package org.uade.java_mail_municipio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +23,14 @@ public class UsuarioModel {
     private String email;
 
     @Column(name = "tipo_usuario")
-    @JsonIgnore
     private String tipoUsuario;
+
+    @Lob
+    @JsonIgnore
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imagenPerfil;
+
+    @JsonIgnore
+    @Column(name = "cambios_en_reclamos")
+    private boolean cambiosEnReclamos;
 }
