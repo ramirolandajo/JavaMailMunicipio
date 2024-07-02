@@ -31,6 +31,7 @@ public class UsuarioService {
         String encodedPassword = bCryptPasswordEncoder.encode(randomPassword);
         newUsuario.setPassword(encodedPassword);
         newUsuario.setCambiosEnReclamos(false);
+        newUsuario.setCambiosEnDenuncias(false);
         this.usuarioRepository.save(newUsuario);
         return randomPassword;
     }

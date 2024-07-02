@@ -33,4 +33,8 @@ public class UsuarioModel {
     @JsonIgnore
     @Column(name = "cambios_en_reclamos")
     private boolean cambiosEnReclamos;
+
+    @JsonIgnore
+    @Column(name = "cambios_en_denuncias")
+    private boolean cambiosEnDenuncias;
 }
