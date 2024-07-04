@@ -1,16 +1,13 @@
 package org.uade.java_mail_municipio.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 import org.uade.java_mail_municipio.model.UsuarioModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.uade.java_mail_municipio.service.UsuarioService;
 
 @Slf4j
@@ -26,12 +23,24 @@ public class JavaMailController {
 
     private String generatedPassword;
 
-    @PostMapping(path = "/send_new_user")
+    @PutMapping(path = "/aprobarUsuario")
     public ResponseEntity<String> sendMail(@RequestBody UsuarioModel newUser) {
         try {
-            generatedPassword = this.usuarioService.guardarUsuario(newUser);
+            generatedPassword = this.usuarioService.aprobarUsuario(newUser);
             sendEmail(newUser.getEmail());
-            return new ResponseEntity<>("Usuario generado correctamente! Mail enviado con password: " + generatedPassword, HttpStatus.OK);
+            return new ResponseEntity<>("Usuario aprobado correctamente! Mail enviado con password: " + generatedPassword, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(path = "/generarUsuario")
+    public ResponseEntity<String> generarUsuario(@RequestBody UsuarioModel newUser) {
+        try {
+            this.usuarioService.guardarUsuario(newUser);
+            return new ResponseEntity<>("El usuario se guardo en la BD", HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();

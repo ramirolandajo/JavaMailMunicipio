@@ -25,6 +25,9 @@ public class UsuarioModel {
     @Column(name = "tipo_usuario")
     private String tipoUsuario;
 
+    @Column(name = "espera_confirmacion")
+    private boolean esperaConfirmacion;
+
     @Lob
     @JsonIgnore
     @Column(columnDefinition = "LONGBLOB")

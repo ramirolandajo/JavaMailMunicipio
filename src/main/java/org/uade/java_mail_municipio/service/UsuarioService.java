@@ -16,23 +16,39 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
 
-    public String guardarUsuario(UsuarioModel newUsuario) throws Exception {
-        Optional<UsuarioModel> usuarioOp = this.usuarioRepository.findById(newUsuario.getDni());
-        if (usuarioOp.isPresent()) {
-            throw new Exception("El usuario que esta intentando crear ya se encuentra en la base de datos");
+    public String aprobarUsuario(UsuarioModel usuario) throws Exception {
+        Optional<UsuarioModel> usuarioOp = this.usuarioRepository.findById(usuario.getDni());
+        if (usuarioOp.isEmpty()) {
+            throw new Exception("El usuario no se encuentra en la base de datos");
         }
         char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 
         RandomStringGenerator generator = RandomStringGenerator.builder().selectFrom(chars).build();
 
-        String randomPassword = generator.generate(16); //genera un string random de 10 caracteres
+        String randomPassword = generator.generate(16);
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = bCryptPasswordEncoder.encode(randomPassword);
-        newUsuario.setPassword(encodedPassword);
-        newUsuario.setCambiosEnReclamos(false);
-        newUsuario.setCambiosEnDenuncias(false);
-        this.usuarioRepository.save(newUsuario);
+        usuario.setPassword(encodedPassword);
+        usuario.setEsperaConfirmacion(false);
+        this.usuarioRepository.save(usuario);
         return randomPassword;
+    }
+
+    public String guardarUsuario(UsuarioModel usuario) throws Exception {
+        Optional<UsuarioModel> usuarioOp = this.usuarioRepository.findById(usuario.getDni());
+        if (usuarioOp.isPresent()) {
+            throw new Exception("El usuario ya se encuentra en la base de datos");
+        }
+        if (usuario.getTipoUsuario().equals("inspector")) {
+            usuario.setEsperaConfirmacion(false);
+        }
+        else {
+            usuario.setEsperaConfirmacion(true);
+        }
+        usuario.setCambiosEnReclamos(false);
+        usuario.setCambiosEnDenuncias(false);
+        this.usuarioRepository.save(usuario);
+        return usuario.getDni();
     }
 }
