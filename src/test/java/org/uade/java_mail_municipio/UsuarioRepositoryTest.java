@@ -17,14 +17,14 @@ class UsuarioRepositoryTest {
     @Test
     void testGuardarYEncontrarUsuario() {
         UsuarioModel u = new UsuarioModel();
-        u.setDni("1234");
+        u.setDni("12345");
         u.setEmail("test@test.com");
         u.setTipoUsuario("inspector");
         u.setEsperaConfirmacion(true);
 
         usuarioRepository.save(u);
 
-        UsuarioModel found = usuarioRepository.findById("1234").orElse(null);
+        UsuarioModel found = usuarioRepository.findById("12345").orElse(null);
 
         assertNotNull(found);
         assertEquals("test@test.com", found.getEmail());
