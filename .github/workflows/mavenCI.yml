@@ -26,30 +26,19 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -uroot -proot"
+          --health-cmd="mysqladmin ping"
           --health-interval=5s
           --health-timeout=5s
           --health-retries=30
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-
-      - name: Install MySQL client
-        run: sudo apt-get update && sudo apt-get install -y mysql-client
-
-      - name: Wait for MySQL to be ready
-        run: |
-          until mysql -h mysql -u root -proot -e "SELECT 1;" appmunicipio_test; do
-            echo "Waiting for MySQL..."
-            sleep 2
-          done
 
       - name: Truncate tables
         run: |
