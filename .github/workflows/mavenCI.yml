@@ -40,7 +40,14 @@ jobs:
         java-version: '17'
         distribution: 'oracle'
         cache: maven
-        
+
+    - name: Wait for MySQL to be ready
+      run: |
+        until mysqladmin ping -h mysql -u root -proot --silent; do
+          echo "Waiting for MySQL..."
+          sleep 2
+        done
+
     - name: Truncate tables
       run: |
         mysql -h mysql -P 3306 -u root -proot -e "TRUNCATE TABLE usuario;" appmunicipio_test
