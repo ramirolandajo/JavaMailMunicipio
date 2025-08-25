@@ -25,7 +25,7 @@ class JavaMailControllerTest {
     @Test
     void testGenerarUsuarioEndpoint() throws Exception {
         UsuarioModel u = new UsuarioModel();
-        u.setDni("8888");
+        u.setDni("8848");
         u.setEmail("controller@test.com");
         u.setTipoUsuario("inspector");
 

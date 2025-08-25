@@ -17,14 +17,14 @@ class UsuarioServiceTest {
     @Test
     void testGuardarUsuarioAndAprobarUsuario() throws Exception {
         UsuarioModel u = new UsuarioModel();
-        u.setDni("9999");
+        u.setDni("9949");
         u.setEmail("service@test.com");
         u.setTipoUsuario("inspector");
 
         // Save
         try {
             String dni = usuarioService.guardarUsuario(u);
-            assertEquals("9999", dni);
+            assertEquals("9949", dni);
         } catch (Exception e) {
             // Exception is expected if user already exists, ignore it
         }
