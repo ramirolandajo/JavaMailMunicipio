@@ -43,7 +43,7 @@ jobs:
         
     - name: Truncate tables
       run: |
-        mysql -h localhost -u root -proot -e "TRUNCATE TABLE usuario;"
+        mysql -h mysql -P 3306 -u root -proot -e "TRUNCATE TABLE usuario;" appmunicipio_test
         
     - name: Test with Maven
       run: mvn clean test
