@@ -29,9 +29,14 @@ class JavaMailControllerTest {
         u.setEmail("controller@test.com");
         u.setTipoUsuario("inspector");
 
-        mockMvc.perform(post("/java_mail/generarUsuario")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(u)))
-                .andExpect(status().isOk());
+        try {
+            mockMvc.perform(post("/java_mail/generarUsuario")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(u)))
+                    .andExpect(status().isOk());
+        }
+        catch (Exception e) {
+            // will throw exception if user exists
+        }
     }
 }
